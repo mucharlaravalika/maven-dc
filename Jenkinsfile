@@ -1,5 +1,5 @@
 pipeline {
-   agent { label any }
+   agent any
     options { skipDefaultCheckout() }
     stages {
         stage ('Build Stage') {
@@ -15,13 +15,12 @@ pipeline {
                             echo "PATH = ${PATH}"
                             echo "M2_HOME = ${M2_HOME}"
                         '''
-                   }
+		    }
                     stage ('BUILD') {
 
-                        echo 'maven build'
-                        sh 'mvn compile'
-                        sh 'mvn package'
-                        sh 'mvn test'
+                        echo 'Installing node modules'
+                        sh 'whoami'
+                        sh 'npm install'
                     }
                     
                    stage ('SonarQube Analysis'){
@@ -41,7 +40,7 @@ pipeline {
 			                */
                         }
                     
-               stage ('ucd deploy') {
+               stage ('ucd deploy Dev') {
                     echo 'started deploying in UCD Dev env'
                     step([  $class: 'UCDeployPublisher',
                     siteName: 'IBM GBS UCD',
@@ -56,15 +55,15 @@ pipeline {
                               ],
                     deploy: [
                  $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeployHelper$DeployBlock',
-                 deployApp: '${APP_NAME}',
-                 deployEnv: '${ENV}',
+                 deployApp: 'HCIL',
+                 deployEnv: 'Dev',
                  deployProc: 'deploy-${COMP_NAME}',
                  deployVersions: '${COMP_NAME}:${BUILD_NUMBER}-${TEMP_NAME}',
                  deployOnlyChanged: false
                          ]
-                      ])
-                   }
-                   }
+                           ])
+                  }          
+			
                 }
             }
         }
