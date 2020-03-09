@@ -16,11 +16,16 @@ pipeline {
                             echo "M2_HOME = ${M2_HOME}"
                         '''
 		    }
-                    stage ('BUILD') {
+                  stage ('BUILD') {
 
-                        echo 'Installing node modules'
-                        sh 'whoami'
-                        sh 'npm install'
+                   echo 'Building the Maven'
+                   sh ''' 
+			 mvn -v
+			 mvn compile
+			 mvn package
+			 mvn test
+                         mvn install
+	           '''
                     }
                     
                    stage ('SonarQube Analysis'){
