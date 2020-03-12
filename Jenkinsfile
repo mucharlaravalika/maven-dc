@@ -1,11 +1,12 @@
 pipeline {
-	agent {
-        node {
+  agent {
+     node {
             label 'DockerIO-2'
         }
      }
-        stage ('Checkout code') {
-           steps {
+stages {
+  stage	('Checkout code') {
+      steps {
             checkout scm
         }
     }
