@@ -3,7 +3,7 @@ pipeline {
     options { skipDefaultCheckout() }
     stages {
               stage ('Checkout') {
-                        echo 'This is a minimal pipeline for PayGo'
+                        echo 'This is a minimal pipeline for DC'
                         echo 'Checking out SCM'
                         checkout scm
                             }
@@ -32,14 +32,7 @@ pipeline {
 					             }
 			                        }
                                       }
-                        }
-	
-    			    
-
-	    
-                  
-                    
-                
+                                  }
                     
               /* stage ('ucd deploy Dev') {
                     echo 'started deploying in UCD Dev env'
