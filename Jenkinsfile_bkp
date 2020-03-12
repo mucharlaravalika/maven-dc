@@ -1,26 +1,25 @@
 pipeline {
-   agent any
+    agent any 
     options { skipDefaultCheckout() }
     stages {
-                   stage ('Checkout') {
+              stage ('Checkout') {
                         echo 'This is a minimal pipeline for PayGo'
                         echo 'Checking out SCM'
                         checkout scm
                             }
-	    
-                  stage ('BUILD') 
-	                    {
-                   echo 'Building the Maven'
-                   sh ''' 
-			 mvn -v
-			 mvn compile
-			 mvn package
-			 mvn test
-                         mvn install
-	           '''
-                    }
-                    
-                   stage ('SonarQube Analysis'){
+			   
+        stage('Maven Build') {
+            agent { docker { image 'maven:3.6.3' } } 
+            steps {
+                echo 'Hello, Maven'
+                sh '''
+		mvn --version
+		mvn clean
+		mvn install
+		'''
+            }
+        }
+	 stage ('SonarQube Analysis'){
 				            def scannerHome = tool 'Sonar-Scanner';
 				      withSonarQubeEnv('Sonar') {
 				                 sh     "-Dsonar.host.url=https://gbsjenkins.ap-south.containers.mybluemix.net/sonar/ " +
@@ -30,10 +29,17 @@ pipeline {
 					                "-Dsonar.projectKey=DC-${TEMP_NAME} " +
 					                "-Dsonar.sources=. " +
 							"-Dsonar.java.binaries=.
-					                //"-Dsonar.exclusions=node_modules/** "
-					                // "-Dsonar.java.binaries=/home/jenkins/workspace/TemplateProjects/MobileAdapter-Java/UserLogin/target/classes " +
-			                   }
+					             }
 			                        }
+                                      }
+                        }
+	
+    			    
+
+	    
+                  
+                    
+                
                     
               /* stage ('ucd deploy Dev') {
                     echo 'started deploying in UCD Dev env'
@@ -57,7 +63,4 @@ pipeline {
                  deployOnlyChanged: false
                          ]
                            ])
-                  }  */        
-
-       }
-}
+                 }  */        
