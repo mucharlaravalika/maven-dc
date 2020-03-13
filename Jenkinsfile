@@ -15,7 +15,7 @@ node ('DockerIO-2'){
     //"PATH+OC=${tool name: 'oc3.11.0', type: 'oc'}/",
     'GITCREDID=rmucharl(DC)',
     'GITBRANCH=master',
-    'GITURL=https://github.com/mucharlaravalika/maven-dc.git']){
+    'GITURL=https://github.com/mucharlaravalika/maven-dc.git'])
     
         stage('Checkout code and build'){
                 git url: "${GITURL}",credentialsId: "${GITCREDID}"
@@ -40,9 +40,9 @@ node ('DockerIO-2'){
 	stage("Maven build") {
         buildInfo = rtMaven.run pom: 'maven-dc/pom.xml', goals: 'clean install package'
                 }
-        stage("docker build")
+      
+	stage("docker build")
         {
-           
           sh """docker login -u ${USERNAME} -p${PASSWORD} ${HOST}
 	  docker build -t ${HOST}/helloworld-maven:1.0 .
           docker push ${HOST}/helloworld-maven:1.0 .
