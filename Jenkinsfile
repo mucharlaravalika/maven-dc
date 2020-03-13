@@ -20,7 +20,11 @@ node ('DockerIO-2'){
     
         stage('Checkout code and build'){
                 git url: "${GITURL}",credentialsId: "${GITCREDID}"
-        }
+		withMaven(
+			maven: 'maven-3.6.3'){
+			sh "mvn clean verify package"	
+                         }
+	              }
         stage ('SonarQube analysis') {
             // step ([$class: 'CopyArtifact', projectName: 'checkout code and build', filter: '**/*']);
                 withSonarQubeEnv ('Sonar') {
@@ -38,14 +42,14 @@ node ('DockerIO-2'){
                // }
             //}
         //}
-        stage("maven build")
+        /*stage("maven build")
 	  {
 		  sh """/opt/apache-maven-3.6.3
 		  mvn -v
 		  mvn install
 		  mvn package
 		  """		  
-	  }  
+	  }  */
         stage("docker build")
         {
             sh """docker login -u ${USERNAME} -p${PASSWORD} ${HOST}
