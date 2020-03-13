@@ -40,7 +40,8 @@ node ('DockerIO-2'){
         //}
         stage("maven build")
 	  {
-		  sh"""
+		  sh
+		  """/opt/apache-maven-3.6.3
 		  mvn -v
 		  mvn install
 		  mvn package
