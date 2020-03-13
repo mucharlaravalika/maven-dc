@@ -40,8 +40,7 @@ node ('DockerIO-2'){
         //}
         stage("maven build")
 	  {
-		  sh
-		  """/opt/apache-maven-3.6.3
+		  sh """/opt/apache-maven-3.6.3
 		  mvn -v
 		  mvn install
 		  mvn package
@@ -49,7 +48,7 @@ node ('DockerIO-2'){
 	  }  
         stage("docker build")
         {
-            sh""" docker login -u ${USERNAME} -p${PASSWORD} ${HOST}
+            sh """docker login -u ${USERNAME} -p${PASSWORD} ${HOST}
             docker build -t ${HOST}/${DOCKER_REPO}/${IMAGE_NAME}:${VERSION} .
             docker push ${HOST}/${DOCKER_REPO}/${IMAGE_NAME}:${VERSION}
             """
