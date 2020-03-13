@@ -61,4 +61,3 @@ node ('DockerIO-2'){
           //  sh """npm run test-with-mocha-coverage"""
         //}
     }
-}
