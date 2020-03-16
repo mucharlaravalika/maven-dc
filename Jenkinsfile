@@ -1,4 +1,5 @@
 node ('DockerIO-2'){
+  def mvn_version = 'M2_HOME'	
   withEnv([
     'APP_HOSTNAME=fusetest.apps.met-police.poc-optimus.co.uk',
     'APP_NAME=fusetest',
@@ -16,15 +17,19 @@ node ('DockerIO-2'){
     //"PATH+OC=${tool name: 'oc3.11.0', type: 'oc'}/",
     'GITCREDID=rmucharl(DC)',
     'GITBRANCH=master',
-    'GITURL=https://github.com/mucharlaravalika/maven-dc.git']){
+    'GITURL=https://github.com/mucharlaravalika/maven-dc.git'
+    'PATH+MAVEN=${tool mvn_version}/bin']){
     
         stage('Checkout code and build'){
                 git url: "${GITURL}",credentialsId: "${GITCREDID}"
-		withMaven(mavenOpts: MAVEN_OPTS, maven: 'M2_HOME', mavenLocalRepo: MAVEN_LOCAL_REPOSITORY, mavenSettingsConfig: MAVEN_SETTINGS) {
+		//withMaven(mavenOpts: MAVEN_OPTS, maven: 'M2_HOME', mavenLocalRepo: MAVEN_LOCAL_REPOSITORY, mavenSettingsConfig: MAVEN_SETTINGS) {
 			//maven: 'M2_HOME'){
 			//export M2_HOME=/opt/apache-maven-3.6.3
                         //export PATH=${PATH}:${M2_HOME}/bin
-			sh "mvn clean verify package"	
+			sh """ 
+			    mvn -v
+		            mvn clean verify package
+			    """
                          }
 	              }
         stage ('SonarQube analysis') {
