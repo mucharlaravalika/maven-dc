@@ -21,7 +21,9 @@ node ('DockerIO-2'){
         stage('Checkout code and build'){
                 git url: "${GITURL}",credentialsId: "${GITCREDID}"
 		withMaven(
-			maven: 'maven-3.6.3'){
+			maven: 'M2_HOME'){
+			export M2_HOME=/opt/apache-maven-3.6.3
+                        export PATH=${PATH}:${M2_HOME}/bin
 			sh "mvn clean verify package"	
                          }
 	              }
