@@ -18,7 +18,7 @@ node ('DockerIO-2'){
     'GITCREDID=rmucharl(DC)',
     'GITBRANCH=master',
     'GITURL=https://github.com/mucharlaravalika/maven-dc.git'
-    'PATH+MAVEN=${tool mvn_version}/bin']){
+    "PATH+MAVEN=${tool mvn_version}/bin"]){
     
         stage('Checkout code and build'){
                 git url: "${GITURL}",credentialsId: "${GITCREDID}"
