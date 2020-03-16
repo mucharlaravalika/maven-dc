@@ -12,6 +12,7 @@ sh '''
 java -version
 mvn -v
 mvn clean verify
+mvn compile package
 '''
 }
 }
