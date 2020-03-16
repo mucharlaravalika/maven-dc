@@ -1,6 +1,5 @@
 pipeline {
-agent any
- 
+	agent { label 'DockerIO-2' }
 tools{
 maven 'maven'
 jdk 'JAVA 8'
